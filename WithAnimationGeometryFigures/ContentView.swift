@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var startAnimation = false
+    
     var body: some View {
         ZStack {
             VStack(spacing: 0) {
@@ -9,12 +11,22 @@ struct ContentView: View {
             }
             .ignoresSafeArea()
             CloudView()
-                .position(x: 200, y: 350)
+                .position(x: startAnimation ? 200 : 400, y: 350)
+                .animation(
+                    .spring(
+                        duration: 0.55,
+                        bounce: 0.45,
+                        blendDuration: 0
+                    ),
+                    value: startAnimation
+                )
             CloudView()
-                .position(x: 300, y: 850)
+                .position(x: startAnimation ? 300 : 450, y: 850)
                 .rotationEffect(.degrees(180))
+                .animation(.default.speed(0.5).delay(0.5), value: startAnimation)
             SunView()
-                .position(x: 400, y: 10)
+                .position(x: 400, y: startAnimation ? 0 : -200)
+                .animation(.easeInOut(duration: 0.7), value: startAnimation)
             ZStack {
                 //  Размещаем элементы в одном Z-пространстве
                 //  ID - позволяет идентифицировать каждый из элементов
@@ -31,6 +43,9 @@ struct ContentView: View {
             }
             LakeView()
                 .position(x: 300, y: 1000)
+        }
+        .onTapGesture {
+            startAnimation.toggle()
         }
     }
 }
