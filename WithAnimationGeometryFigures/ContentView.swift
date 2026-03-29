@@ -23,6 +23,14 @@ struct ContentView: View {
                         .position(x: 30 * CGFloat(iteration) * 2.25, y: 400)
                 }
             }
+            ZStack {
+                ForEach(1...15, id: \.self) { iteration in
+                    GrassView()
+                        .position(x: 23 * CGFloat(iteration), y: 600)
+                }
+            }
+            LakeView()
+                .position(x: 300, y: 1000)
         }
     }
 }
